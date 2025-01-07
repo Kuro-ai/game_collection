@@ -1,0 +1,33 @@
+.board {
+    display: grid;
+    grid-template-columns: repeat(5, 50px);
+    gap: 5px;
+    justify-content: center;
+}
+.cell {
+    width: 50px;
+    height: 50px;
+    border: 1px solid #ccc;
+    cursor: pointer;
+}
+.cell.on {
+    background-color: yellow;
+}
+.cell.off {
+    background-color: black;
+}
+.won {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 24px;
+    color: green;
+}
+.controls {
+    text-align: center;
+    margin-top: 20px;
+}
+.controls button {
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+}

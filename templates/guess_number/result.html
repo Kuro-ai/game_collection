@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+<head>
+    {% load static %}
+    <title>Game Result</title>
+    <link rel="stylesheet" href="{% static 'css/guess_num.css' %}">
+</head>
+<body>
+    <h1>Congratulations!</h1>
+    <p>You guessed the number in {{ attempts }} attempts!</p>
+    <a href="{% url 'guess_number:restart_game' %}">Play Again</a>
+    <a href="{% url 'landing_page' %}">Back to Home</a>
+</body>
+</html>

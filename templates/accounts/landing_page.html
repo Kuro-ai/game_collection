@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game Collection</title>
+    <link rel="stylesheet" href="{% static 'css/main.css' %}">
+</head>
+<body>
+    <header>
+        <h1>Welcome to Game Collection</h1>
+        {% if user.is_authenticated %}
+            <p>Hello, {{ user.username }}!</p>
+            <a href="{% url 'logout' %}">Logout</a>
+        {% else %}
+            <a href="{% url 'admin:index' %}" class="admin-login">Admin Login</a> | 
+            <a href="{% url 'login' %}">Login</a> | 
+            <a href="{% url 'register' %}">Register</a>
+        {% endif %}
+    </header>
+
+    <main>
+        <h2>Choose a Game</h2>
+        <a href="{% url 'tic_tac_toe:tic_tac_toe_home' %}">Tic Tac Toe</a>
+        <a href="{% url 'connect_four:connect_four_home' %}">Connect Four</a>
+        
+        <a href="{% url 'snake_game:snake_game_home' %}">Snake Game</a>
+        <a href="{% url 'guess_number:guess_number_home' %}">Guess the Number</a>
+        <a href="{% url 'lights_out:lights_out_home' %}">Lights Out</a>
+        <a href="{% url 'memory_match:play_game' %}">Memory Match</a>
+        <a href="{% url 'word_scramble' %}">Word Scramble</a>
+        <a href="{% url 'hangman_play' %}">Hangman</a>
+        <a href="{% url 'number_sequence_game' %}">Number Sequence</a>
+        <a href="{% url '2048' %}">2048</a>
+    </main>
+
+    {% if messages %}
+        <ul>
+            {% for message in messages %}
+                <li class="{{ message.tags }}">{{ message }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+</body>
+</html>

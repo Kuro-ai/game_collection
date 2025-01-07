@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2048 Game</title>
+    <link rel="stylesheet" href="{% static 'css/2048.css' %}">
+</head>
+<body>
+    <h1>2048 Game</h1>
+    <p>Score: <span id="score">{{ score }}</span></p>
+    <div id="game-grid">
+        {% for row in grid %}
+        <div class="row">
+            {% for cell in row %}
+            <div class="cell">{{ cell|default:"" }}</div>
+            {% endfor %}
+        </div>
+        {% endfor %}
+    </div>
+    <button id="restart">Restart</button>
+    <a href="{% url 'landing_page' %}">Back to Home</a> 
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const directions = { 'ArrowUp': 0, 'ArrowRight': 1, 'ArrowDown': 2, 'ArrowLeft': 3 };
+            document.addEventListener('keydown', (e) => {
+                if (e.key in directions) {
+                    fetch('', {
+                        method: 'POST',
+                        headers: { 'X-CSRFToken': '{{ csrf_token }}' },
+                        body: new URLSearchParams({ 'direction': directions[e.key] }),
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        const grid = data.grid;
+                        const score = data.score;
+                        const gameOver = data.game_over;
+                        document.getElementById('score').textContent = score;
+                        const rows = document.querySelectorAll('#game-grid .row');
+                        for (let r = 0; r < 4; r++) {
+                            const cells = rows[r].querySelectorAll('.cell');
+                            for (let c = 0; c < 4; c++) {
+                                cells[c].textContent = grid[r][c] || '';
+                            }
+                        }
+                        if (gameOver) {
+                            alert('Game Over!');
+                        }
+                    });
+                }
+            });
+        
+            document.getElementById('restart').addEventListener('click', () => {
+                location.reload();
+            });
+        });
+        
+    </script>
+</body>
+</html>

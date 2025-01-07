@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+    {% load static %}
+    <title>Guess the Number</title>
+    <link rel="stylesheet" href="{% static 'css/guess_num.css' %}">
+</head>
+<body>
+    <h1>Guess the Number</h1>
+    <p>I'm thinking of a number between 1 and 100.</p>
+    <form method="post" action="{% url 'guess_number:make_guess' %}">
+        {% csrf_token %}
+        <input type="number" name="guess" placeholder="Enter your guess" required>
+        <button type="submit">Guess</button>
+    </form>
+    {% if message %}
+        <p>{{ message }}</p>
+    {% endif %}
+    <a href="{% url 'landing_page' %}">Back to Home</a> 
+</body>
+</html>

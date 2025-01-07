@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Word Scramble</title>
+    <link rel="stylesheet" href="{% static 'css/word_scr.css' %}">     
+</head>
+<body>
+    <h1>Word Scramble</h1>
+    <p>Unscramble the word below:</p>
+    <h2 id="scrambled-word">{{ scrambled_word }}</h2>
+
+    <p><strong>Lives:</strong> <span id="lives">{{ lives }}</span></p>
+    <p><strong>Score:</strong> <span id="score">0</span></p>
+    <p><strong>Time Remaining:</strong> <span id="timer">30</span> seconds</p>
+
+    <form id="word-form">
+        <input type="text" name="answer" id="answer" placeholder="Your Answer">
+        <button type="submit">Submit</button>
+    </form>
+
+    <button id="show-hint-btn">Show Hint</button>
+    <p id="hint"></p>
+
+    <button id="restart-btn">Restart Game</button>
+    <a href="{% url 'landing_page' %}">Back to Home</a> 
+
+    <p id="result"></p>
+
+    <script>
+        let timerInterval;
+
+        function startTimer(duration) {
+            clearInterval(timerInterval);
+            let timeRemaining = duration;
+            document.getElementById("timer").textContent = timeRemaining;
+        
+            timerInterval = setInterval(async () => {
+                timeRemaining -= 1;
+                document.getElementById("timer").textContent = timeRemaining;
+        
+                if (timeRemaining <= 0) {
+                    clearInterval(timerInterval);
+                    // Deduct a life and load the next word
+                    const response = await fetch("{% url 'check_word_scramble' %}", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/x-www-form-urlencoded",
+                            "X-CSRFToken": "{{ csrf_token }}",
+                        },
+                        body: new URLSearchParams({ answer: "" }), // Empty answer for timeout
+                    });
+        
+                    const data = await response.json();
+                    const livesEl = document.getElementById("lives");
+                    const resultEl = document.getElementById("result");
+        
+                    livesEl.textContent = data.lives;
+        
+                    if (data.lives > 0) {
+                        resultEl.textContent = `Time's up! The word was "${data.original_word}". Moving to the next word...`;
+                        resultEl.style.color = "orange";
+                        loadNextWord();
+                    } else {
+                        resultEl.textContent = `Game Over! The word was "${data.original_word}".`;
+                        resultEl.style.color = "red";
+                        document.getElementById("word-form").style.display = "none";
+                    }
+                }
+            }, 1000);
+        }
+        
+        document.getElementById("word-form").addEventListener("submit", async function (e) {
+            e.preventDefault();
+            const answerInput = document.getElementById("answer");
+            const answer = answerInput.value;
+
+            answerInput.value = "";
+
+            const response = await fetch("{% url 'check_word_scramble' %}", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/x-www-form-urlencoded",
+                    "X-CSRFToken": "{{ csrf_token }}",
+                },
+                body: new URLSearchParams({ answer: answer }),
+            });
+
+            const data = await response.json();
+            const resultEl = document.getElementById("result");
+            const livesEl = document.getElementById("lives");
+            const scoreEl = document.getElementById("score");
+
+            if (data.correct) {
+                resultEl.textContent = `Correct! The word was "${data.original_word}".`;
+                resultEl.style.color = "green";
+                scoreEl.textContent = parseInt(scoreEl.textContent) + 10;
+                loadNextWord();
+            } else {
+                livesEl.textContent = data.lives;
+                if (data.lives > 0) {
+                    resultEl.textContent = `Wrong! Try again.`;
+                    resultEl.style.color = "red";
+                } else {
+                    resultEl.textContent = `Game Over! The word was "${data.original_word}".`;
+                    resultEl.style.color = "red";
+                    clearInterval(timerInterval);
+                    document.getElementById("word-form").style.display = "none";
+                }
+            }
+        });
+
+        async function loadNextWord() {
+            const response = await fetch("{% url 'next_word_scramble' %}");
+            const data = await response.json();
+            document.getElementById("scrambled-word").textContent = data.scrambled_word;
+            document.getElementById("hint").textContent = "";
+            startTimer(30);
+        }
+
+        document.getElementById("show-hint-btn").addEventListener("click", async function () {
+            const response = await fetch("{% url 'show_hint' %}");
+            const data = await response.json();
+            document.getElementById("hint").textContent = `Hint: ${data.hint}`;
+        });
+
+        document.getElementById("restart-btn").addEventListener("click", async function () {
+            const response = await fetch("{% url 'restart_word_scramble' %}");
+            if (response.ok) {
+                window.location.reload();
+            }
+        });
+
+        // Start the timer for the first word
+        startTimer(30);
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <title>Play Memory Match</title>
+    <link rel="stylesheet" href="{% static 'css/memory.css' %}">
+    <script>
+        let selectedCards = [];
+        let matchedCards = 0;
+        let score = 0;
+
+        function flipCard(card, value) {
+            // Prevent flipping if the card is already matched
+            if (card.classList.contains('matched') || selectedCards.length === 2) {
+                return;
+            }
+
+            // Only allow card to be flipped if it isn't already revealed
+            if (!card.textContent) {
+                card.textContent = value;
+                selectedCards.push({ card, value });
+            }
+
+            // Check if two cards are selected to see if they match
+            if (selectedCards.length === 2) {
+                checkMatch();
+            }
+        }
+
+        function checkMatch() {
+            const [first, second] = selectedCards;
+
+            if (first.value === second.value) {
+                first.card.classList.add('matched');
+                second.card.classList.add('matched');
+                matchedCards += 2;
+                score += 10; // Increment score for a match
+                updateScore();
+
+                if (matchedCards === 40) {
+                    setTimeout(() => alert('Congratulations! You win!'), 500);
+                }
+            } else {
+                setTimeout(() => {
+                    first.card.textContent = '';
+                    second.card.textContent = '';
+                }, 300); // Shorter delay for immediate feedback
+            }
+            selectedCards = [];
+        }
+
+        function updateScore() {
+            document.getElementById('score').textContent = `Score: ${score}`;
+        }
+
+        // Function to restart the game
+        function restartGame() {
+            location.reload();
+        }
+    </script>
+</head>
+<body>
+    <h1>Memory Match Game</h1>
+
+    <!-- Navigation Buttons -->
+    <div class="navigation">
+        <button id="restart-btn" onclick="restartGame()">Restart Game</button>
+        <button id="backToLanding" onclick="window.location.href='{% url 'landing_page' %}'">Back to Landing Page</button>
+    </div>
+
+    <!-- Score Display -->
+    <div id="score-container">
+        <span id="score">Score: 0</span>
+    </div>
+
+    <!-- Game Board -->
+    <div class="game-board">
+        {% for card in cards %}
+        <div class="card" onclick="flipCard(this, '{{ card.value }}')"></div>
+        {% endfor %}
+    </div>
+</body>
+</html>

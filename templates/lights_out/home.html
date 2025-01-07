@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lights Out</title>
+    <link rel="stylesheet" href="{% static 'css/lights.css' %}">
+    <script>
+        let initialElapsedTime = {{ elapsed_time }}; // Start time as an integer
+        let timerInterval;
+
+        function startTimer() {
+            const timerElement = document.getElementById('timer');
+            let currentElapsedTime = initialElapsedTime;
+
+            timerInterval = setInterval(() => {
+                currentElapsedTime++; // Increment as an integer
+                timerElement.textContent = `Time: ${currentElapsedTime}s`;
+            }, 1000);
+        }
+
+        // Start the timer when the page loads
+        window.onload = startTimer;
+    </script>
+</head>
+<body>
+    <h1>Lights Out Game</h1>
+
+    <!-- Real-time Timer -->
+    <div id="timer-container">
+        <span id="timer">Time: {{ elapsed_time }}s</span>
+    </div>
+
+    <form method="POST">
+        {% csrf_token %}
+        <div class="board">
+            {% for row in board %}
+                {% for cell in row %}
+                    <button type="submit" name="cell" value="{{ forloop.parentloop.counter0 }},{{ forloop.counter0 }}"
+                            class="cell {% if cell %}on{% else %}off{% endif %}"></button>
+                {% endfor %}
+            {% endfor %}
+        </div>
+        <div class="controls">
+            <button type="submit" name="restart">Restart</button>
+            <button type="button" onclick="window.location.href='{% url 'landing_page' %}'">Back to Landing Page</button>
+        </div>
+    </form>
+    {% if won %}
+        <div class="won">
+            <p>Congratulations! You won!</p>
+            <p>Total Time: {{ elapsed_time }} seconds</p>
+        </div>
+        <script>
+            // Stop the timer when the user wins
+            clearInterval(timerInterval);
+        </script>
+    {% endif %}
+</body>
+</html>

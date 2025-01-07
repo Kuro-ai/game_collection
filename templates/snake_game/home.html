@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {%load static%}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Snake Game</title>
+    <link rel="stylesheet" href="{% static 'css/snake_game.css' %}">
+</head>
+<body>
+    <div class="game-container">
+        <canvas id="gameCanvas" width="400" height="400"></canvas>
+        <div id="scoreDisplay">
+            <p id="score">Score: 0</p>
+        </div>
+        <div id="gameOverMessage" class="hidden">
+            <p>Game Over!</p>
+            <button id="restartButton">Restart</button>
+        </div>
+        <button id="backToLanding">Back to Landing Page</button>
+    </div>
+    <script src="{% static 'js/snake_game.js' %}"></script>
+    <script>
+        document.getElementById("backToLanding").addEventListener("click", () => {
+            window.location.href = "{% url 'landing_page' %}";
+        });
+    </script>
+</body>
+
+</html>

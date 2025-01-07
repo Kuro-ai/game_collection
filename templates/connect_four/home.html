@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Connect Four</title>
+    <link rel="stylesheet" href="{% static 'css/connect_four.css' %}">
+    <script>
+        function placeDisc(col) {
+            // Create a hidden input field to submit the selected column
+            var input = document.createElement("input");
+            input.type = "hidden";
+            input.name = "col";
+            input.value = col;
+
+            // Append the input to the form and submit it
+            var form = document.getElementById("gameForm");
+            form.appendChild(input);
+            form.submit();
+        }
+    </script>
+</head>
+<body>
+
+    <h1>Connect Four</h1>
+    
+    <form method="post" id="gameForm">
+        {% csrf_token %}
+        <p>Current player: {{ current_player }}</p>
+        <div class="board">
+            {% for row in board %}
+                <div class="row">
+                    {% for cell in row %}
+                        <div 
+                            class="cell {% if cell != ' ' %}occupied {% if cell == '🔴' %}red{% else %}yellow{% endif %}{% endif %}" 
+                            onclick="placeDisc({{ forloop.counter0 }})">
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endfor %}
+        </div>
+
+        <div id="message-container">
+            <!-- Winner Message -->
+            <div id="winner-message" class="{% if not winner or winner == 'Draw' %}hidden{% endif %}">
+                <h2>🎉 {{ winner }} Wins! 🎉</h2>
+            </div>
+
+            <!-- Draw Message -->
+            <div id="draw-message" class="{% if winner != 'Draw' %}hidden{% endif %}">
+                <h2>🤝 It's a Draw! 🤝</h2>
+            </div>
+        </div>
+       
+        <button id="restart-button" type="submit" name="reset">Reset Game</button>
+        <a href="{% url 'landing_page' %}">Back to Home</a> 
+    </form>
+
+</body>
+</html>

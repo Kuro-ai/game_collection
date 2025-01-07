@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Number Sequence Game</title>
+    <link rel="stylesheet" href="{% static 'css/numseq.css' %}">
+    <script>
+        let timeLeft = 60; // Start with 60 seconds
+        let timer;
+
+        function startTimer() {
+            const timerElement = document.getElementById('timer');
+            timer = setInterval(() => {
+                if (timeLeft > 0) {
+                    timeLeft--;
+                    timerElement.textContent = `Time remaining: ${timeLeft}s`;
+                } else {
+                    clearInterval(timer);
+                    document.getElementById('timeout-form').submit(); // Auto-submit timeout form
+                }
+            }, 1000);
+        }
+
+        function resetTimer() {
+            clearInterval(timer);
+            timeLeft = 60; // Reset to 60 seconds
+            startTimer(); // Restart the timer
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            startTimer();
+        });
+    </script>
+</head>
+<body>
+    <div class="container">
+        <h1>Number Sequence Game</h1>
+        <p>Score: {{ score }}</p>
+        <p>Lives: {{ lives }}</p>
+        <p id="timer">Time remaining: 60s</p>
+        <p>Guess the next number in the sequence:</p>
+        <h2>{{ sequence|join:", " }} , ?</h2>
+        <form method="post" id="guess-form" {% if game_over %}style="display: none;"{% endif %}>
+            {% csrf_token %}
+            <input type="number" name="guess" placeholder="Your guess" required>
+            <button type="submit" onclick="resetTimer()">Submit</button>
+        </form>
+        <form method="post" id="timeout-form" style="display: none;">
+            {% csrf_token %}
+            <input type="hidden" name="guess" value="">
+        </form>
+        <a href="{% url 'restart_game' %}" {% if game_over %}style="display: none;"{% endif %}>Restart Game</a>
+        <a href="{% url 'landing_page' %}">Back to Home</a> 
+        {% if game_over %}
+            <p>Game Over! The correct answer was {{ correct_answer }}.</p>
+        {% endif %}
+    </div>
+</body>
+</html>

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game Collection</title>
+    <link rel="stylesheet" href="{% static 'css/hangman.css' %}">
+</head>
+<body>
+    <h1>Hangman Game</h1>
+    <p>Word: {{ display }}</p>
+    <p>Lives Remaining: {{ lives }}</p>
+    <p>Guessed Letters: {{ guessed|join:", " }}</p>
+    {% if message %}
+        <p>{{ message }}</p>
+        {% if won or lost %}
+            <a href="{% url 'hangman_reset' %}">Play Again</a>
+        {% endif %}
+    {% else %}
+        <form method="post">
+            {% csrf_token %}
+            <label for="guess">Enter a letter:</label>
+            <input type="text" id="guess" name="guess" maxlength="1" required>
+            <button type="submit">Guess</button>
+        </form>
+    {% endif %}
+    
+    <!-- Add Reset Button -->
+    <form method="get" action="{% url 'hangman_reset' %}" style="margin-top: 20px;">
+        <button type="submit">Reset Game</button>
+    </form>
+    <a href="{% url 'landing_page' %}">Back to Home</a> 
+</body>
+</html>
