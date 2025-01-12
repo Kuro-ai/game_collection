@@ -6,11 +6,14 @@ body {
     justify-content: center;
     height: 100vh;
     margin: 0;
-    background-color: #f4f4f4;
+    background-color: #1e1e2f; /* Dark background */
+    color: #ffffff;
 }
 
-.game-container {
-    text-align: center;
+h1 {
+    font-size: 2.5rem;
+    color: #ff9f43; /* Accent color for header */
+    margin-bottom: 20px;
 }
 
 #game-board {
@@ -28,8 +31,8 @@ body {
     align-items: center;
     justify-content: center;
     font-size: 2rem;
-    background-color: white;
-    border: 1px solid #ccc;
+    background-color: #2d2d40; /* Darker background for cells */
+    border: 1px solid #ff9f43; /* Accent border for cells */
     cursor: pointer;
     position: relative;
 }
@@ -50,7 +53,7 @@ body {
     position: absolute;
     width: 5px;
     height: 120%;
-    background-color: red;
+    background-color: #ff9f43; /* Accent color for cross */
     top: 50%;
     left: 50%;
     transform-origin: center;
@@ -75,7 +78,7 @@ body {
     position: absolute;
     width: 100%;
     height: 100%;
-    border: 5px solid blue;
+    border: 5px solid #4e84c7; /* Accent color for circle */
     border-radius: 50%;
     box-sizing: border-box;
     top: 0;
@@ -95,15 +98,15 @@ body {
 }
 
 #winner-message {
-    background-color: #e0ffe0; 
-    color: #333;
-    border: 2px solid #5cb85c; 
+    background-color: #2d2d40;
+    color: #5cb85c;
+    border: 2px solid #5cb85c;
 }
 
 #draw-message {
-    background-color: #f0f0f0; 
-    color: #555;
-    border: 2px solid #ccc; 
+    background-color: #2d2d40;
+    color: #f0ad4e;
+    border: 2px solid #f0ad4e;
 }
 
 .hidden {
@@ -116,7 +119,7 @@ body {
     padding: 10px 20px;
     font-size: 1rem;
     color: white;
-    background-color: #007bff;
+    background-color: #ff9f43;
     border: none;
     border-radius: 5px;
     text-align: center;
@@ -126,9 +129,20 @@ body {
 }
 
 #restart-button:hover {
-    background-color: #0056b3;
+    background-color: #ffc57c;
 }
 
 #restart-button:active {
-    background-color: #004085;
+    background-color: #ff7f2a;
+}
+
+a {
+    color: #ff9f43;
+    text-decoration: none;
+    margin-top: 20px;
+    font-weight: bold;
+}
+
+a:hover {
+    text-decoration: underline;
 }
