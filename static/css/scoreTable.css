@@ -1,0 +1,45 @@
+.score-table-container {
+    width: 80%;
+    max-width: 600px;
+    margin: 20px auto;
+    padding: 20px;
+    border: 2px solid #ff9f43; /* Accent color for container */
+    border-radius: 5px;
+    background-color: #2d2d40; /* Darker background for container */
+    color: #ffffff;
+    text-align: center;
+}
+
+.score-table-container h2 {
+    font-size: 1.5rem;
+    color: #ff9f43; /* Accent color for header */
+    margin-bottom: 20px;
+}
+
+.score-table-container table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+    padding-right: 10px;
+}
+
+.score-table-container th, .score-table-container td {
+    padding: 10px;
+    border: 1px solid #ff9f43; /* Accent color for table borders */
+    text-align: center;
+}
+
+.score-table-container th {
+    background-color: #ff9f43;; /* Accent color for table header */
+    color: #1e1e2f;
+}
+
+.score-table-container td {
+    background-color: #1e1e2f; /* Darker background for table cells */
+    color: #ffffff;
+}
+
+.score-table-container p {
+    font-size: 1rem;
+    color: #ff9f43; /* Accent color for text */
+}

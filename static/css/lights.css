@@ -1,33 +1,75 @@
+body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    margin: 0;
+    background-color: #1e1e2f; /* Dark background */
+    color: #ffffff;
+}
+
+h1 {
+    font-size: 2.5rem;
+    color: #ff9f43; /* Accent color for header */
+    margin-bottom: 20px;
+}
+
 .board {
     display: grid;
     grid-template-columns: repeat(5, 50px);
     gap: 5px;
     justify-content: center;
+    margin: 20px;
+    padding: 20px;
+    border: 2px solid #ff9f43; /* Accent border */
+    border-radius: 5px;
+    background-color: #2d2d40; /* Darker background for board */
 }
+
 .cell {
     width: 50px;
     height: 50px;
-    border: 1px solid #ccc;
+    border: 1px solid #ff9f43; /* Accent border */
     cursor: pointer;
 }
+
 .cell.on {
     background-color: yellow;
 }
+
 .cell.off {
     background-color: black;
 }
+
 .won {
     text-align: center;
     margin-top: 20px;
     font-size: 24px;
     color: green;
 }
+
 .controls {
     text-align: center;
     margin-top: 20px;
 }
+
 .controls button {
     padding: 10px 20px;
-    font-size: 16px;
+    font-size: 1rem;
+    color: white;
+    background-color: #2d2d40;
+    border: 2px solid #ff9f43; /* Accent border */
+    border-radius: 5px;
     cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.controls button:hover {
+    background-color: #ff9f43; /* Lighter background on hover */
+}
+
+.controls button:active {
+    background-color: #ff7f2a;
 }

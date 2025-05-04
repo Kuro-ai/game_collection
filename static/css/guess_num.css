@@ -1,0 +1,151 @@
+body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    margin: 0;
+    background-color: #1e1e2f; /* Dark background */
+    color: #ffffff;
+}
+
+h1 {
+    font-size: 2.5rem;
+    color: #ff9f43; /* Accent color for header */
+    margin-bottom: 20px;
+}
+
+.game-container {
+    border: 2px solid #ff9f43; 
+    padding: 20px;
+    margin: 10px;
+    border-radius: 5px;
+    box-sizing: border-box;
+    background-color: #2d2d40; 
+    width: 80%;
+    max-width: 600px;
+    text-align: center;
+}
+
+
+.guess-input {
+    width: 100px;
+    padding: 10px;
+    font-size: 1rem;
+    margin-bottom: 20px;
+    border: 2px solid #ff9f43; /* Accent border */
+    border-radius: 5px;
+    background-color: #1e1e2f; /* Dark background for input */
+    color: #ffffff;
+    text-align: center;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+button:hover, .guess-input:hover {
+    background-color: #ff9f43; /* Lighter background on hover */
+}
+button, .backhome-btn {
+    padding: 10px 20px;
+    margin: 10px;
+    font-size: 1rem;
+    color: white;
+    border: 1px solid #ff9f43;
+    background-color: #2d2d40;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    text-decoration: none;
+    
+}
+
+button:hover, .backhome-btn:hover {
+    background-color: #ff9f43; /* Lighter background on hover */
+}
+
+#submit-button {
+    padding: 10px 20px;
+    font-size: 1rem;
+    color: white;
+    background-color: #2d2d40;
+    border: 2px solid #ff9f43; /* Accent border */
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#submit-button:hover {
+    background-color: #ff9f43; /* Lighter background on hover */
+}
+
+#submit-button:active {
+    background-color: #ff7f2a;
+}
+
+#message-container {
+    margin-top: 20px;
+    text-align: center;
+}
+
+#success-message, #error-message {
+    padding: 10px;
+    font-size: 1.5rem;
+    font-weight: bold;
+    border-radius: 10px;
+}
+
+#success-message {
+    background-color: #2d2d40;
+    color: #5cb85c;
+    border: 2px solid #5cb85c;
+}
+
+#error-message {
+    background-color: #2d2d40;
+    color: #d9534f;
+    border: 2px solid #d9534f;
+}
+
+.hidden {
+    display: none;
+}
+
+#restart-button {
+    margin-top: 40px;
+    display: inline-block;
+    padding: 10px 20px;
+    font-size: 1rem;
+    color: white;
+    background-color: #2d2d40;
+    border: 2px solid #ff9f43; /* Accent border */
+    border-radius: 5px;
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#restart-button:hover {
+    background-color: #ff9f43; /* Lighter background on hover */
+}
+
+#restart-button:active {
+    background-color: #ff7f2a;
+}
+
+a {
+    color: #ff9f43;
+    text-decoration: none;
+    margin-top: 20px;
+    font-weight: bold;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+/* .scoreTable {
+    margin-top: 20px;
+    width: 80%;
+    max-width: 600px;
+} */

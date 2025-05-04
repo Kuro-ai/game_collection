@@ -17,14 +17,11 @@
             <p>Game Over!</p>
             <button id="restartButton">Restart</button>
         </div>
-        <button id="backToLanding">Back to Landing Page</button>
+        <div class="center">
+            <a href="{% url 'landing_page' %}" class="back-to-home">Back to Home</a>
+        </div>        
     </div>
     <script src="{% static 'js/snake_game.js' %}"></script>
-    <script>
-        document.getElementById("backToLanding").addEventListener("click", () => {
-            window.location.href = "{% url 'landing_page' %}";
-        });
-    </script>
 </body>
 
 </html>
